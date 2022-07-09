@@ -19,19 +19,33 @@ class Jogo():
            
     def loop_cliente(self):
         font = pygame.font.SysFont(None, 50)
+        vidas_players = []
         while True:
             self.mapa.clock.tick(ConfigGerais.FPS)
             
-            text = font.render(f"Vidas: {str(self.tanques['1'].vida)}", True, ConfigGerais.WHITE)
-            text2 = font.render(f"Vidas: {str(self.tanques['2'].vida)}", True, ConfigGerais.WHITE)
-            
+            # text = font.render(f"Vidas: {str(self.tanques['1'].vida)}", True, ConfigGerais.WHITE)
+            # text2 = font.render(f"Vidas: {str(self.tanques['2'].vida)}", True, ConfigGerais.WHITE)
+            for i in range(1,len(self.tanques)+1):
+                vida = font.render(f"Vida(s) P{i}: {str(self.tanques[str(i)].vida)}", True, ConfigGerais.WHITE)
+                vidas_players.append(vida)
+                
             event = pygame.event.poll()
             if event.type == pygame.QUIT:
                 break
             
             self.mapa.screen.fill(ConfigGerais.BEJE)
-            self.mapa.screen.blit(text, [40, 0])
-            self.mapa.screen.blit(text2, [640, 0])
+            
+            x, y= 40, 0 
+            for vida in vidas_players:
+                self.mapa.screen.blit(vida, [x, y])
+                if x == 640: x == 40
+                else: x += 600
+
+                if y == 580: y = 0
+                else: y += 580
+
+            # self.mapa.screen.blit(text, [40, 0])
+            # self.mapa.screen.blit(text2, [640, 0])
             try:
                 for ob in self.mapa.obst:
                     pygame.draw.rect(self.mapa.screen, ConfigGerais.WHITE, ob)

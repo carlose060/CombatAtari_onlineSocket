@@ -42,6 +42,7 @@ class Cliente(socket):
                 tanque.vida = e
                 if f > len(tanque.tiros):
                     tanque.comando4()
+                    pygame.mixer.Sound('sounds/shot.wav').play()
             
 
     def send_server(self):
