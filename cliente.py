@@ -3,14 +3,18 @@ from threading import Thread
 from mapa import Mapa
 from jogo import Jogo
 import pygame
-from struct import unpack
+from struct import pack, unpack
 from time import sleep
-
+from sys import argv
 
 class Cliente(socket):
-    def __init__(self):
+    def __init__(self, no_clientes, no_mapa):
         super().__init__(AF_INET,SOCK_STREAM)
         self.jogo = None
+
+        self.conexao('localhost',8888)
+        self.send(pack('!2i', no_clientes, no_mapa))
+        self.no_clientes, self.no_mapa = unpack('!2i', self.recv(8))
 
     def conexao(self, ip, porta):
         super().connect((ip,int(porta)))
@@ -24,31 +28,20 @@ class Cliente(socket):
 
     def recv_server(self):
         while True:
-            tt = self.recv(24)
-            a,b,c,d,e,f = unpack('!6i',tt)
-                
-            
-            
-            self.jogo.tanque1.x = a
-            self.jogo.tanque1.y = b
-            self.jogo.tanque1.velocidade = c
-            self.jogo.tanque1.angulo_atual = d
-            self.jogo.tanque1.vida = e
-            if f > len(self.jogo.tanque1.tiros):
-                self.jogo.tanque1.comando4()
 
+            for tanque_idx in range(len(self.jogo.tanques)):
+                tanque = self.jogo.tanques[str(tanque_idx + 1)]
 
-            tt = self.recv(24)
-            a,b,c,d,e,f = unpack('!6i', tt)
-            self.jogo.tanque2.x = a
-            self.jogo.tanque2.y = b
-            self.jogo.tanque2.velocidade = c
-            self.jogo.tanque2.angulo_atual = d
-            self.jogo.tanque2.vida = e
-            if f > len(self.jogo.tanque2.tiros):
-                self.jogo.tanque2.comando4()
-
-
+                tt = self.recv(24)
+                a,b,c,d,e,f = unpack('!6i',tt)
+                    
+                tanque.x = a
+                tanque.y = b
+                tanque.velocidade = c
+                tanque.angulo_atual = d
+                tanque.vida = e
+                if f > len(tanque.tiros):
+                    tanque.comando4()
             
 
     def send_server(self):
@@ -75,11 +68,11 @@ class Cliente(socket):
 
     def game(self):
         mapa = Mapa()
-        self.jogo = Jogo(mapa)
+        self.jogo = Jogo(self.no_clientes, mapa)
         self.collect_data()
-        th = Thread(target=self.recv_server)
+        th = Thread(target=self.recv_server, daemon=True)
         th.start()
-        tr = Thread(target=self.send_server)
+        tr = Thread(target=self.send_server, daemon=True)
         tr.start()
         self.jogo.loop_cliente()
         
@@ -87,6 +80,11 @@ class Cliente(socket):
 
 
 if __name__ == '__main__':
-    cliente = Cliente()
-    cliente.conexao('localhost',8888)
+
+    darg = dict(enumerate(argv[1:]))
+
+    no_clientes = int(darg.get(0, 2))
+    nome_mapa = int(darg.get(1, 1))
+
+    cliente = Cliente(no_clientes, nome_mapa)
     cliente.game()
