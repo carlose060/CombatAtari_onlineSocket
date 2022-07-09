@@ -20,7 +20,8 @@ class Servidor(socket):
         super().listen(1)
 
     def cliente(self, client, idx_tank: str):
-        client.send('Esperando Player2'.encode())
+        print(f'Cliente {idx_tank} conectado')
+        client.send(f'{idx_tank}'.encode())
         while True:
             comando = client.recv(1).decode()
             try:
@@ -29,7 +30,7 @@ class Servidor(socket):
                     return
                     
                 acao = self.jogo.tanques[idx_tank].comandos[comando]
-                acao()
+                acao(self.no_mapa)
                 self.send_server()
             except KeyError:
                 pass
@@ -66,13 +67,14 @@ class Servidor(socket):
             client, addr = self.accept()
             self.clients.append(client)
 
+            # Ignora caso o jogador 2 ou maior tente mandar mapa etc
             client.recv(8)
             client.send(pack('!2i', self.no_clientes, self.no_mapa))
 
             th = Thread(target=self.cliente, args=(client, str(len(self.clients))), daemon=True)
             th.start()
 
-        mapa = Mapa()
+        mapa = Mapa(self.no_mapa)
         self.jogo = Jogo(self.no_clientes, mapa)
         
         for client_ in self.clients:

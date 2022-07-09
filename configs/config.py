@@ -31,11 +31,11 @@ class ConfigAmbiente:
             'y': 300
         },
         'Player3': {
-            'x': 350,
-            'y': 70,
+            'x': 385,
+            'y': 80,
         },
         'Player4': {
-            'x': 350,
+            'x': 385,
             'y': 500
         }
     }
@@ -53,7 +53,7 @@ class ConfigObstaculos:
         if num == 5:
             return 375, 280, 50, 50
     def objeto2(num):
-        pass
+        return 350, 255, 100, 100
 
     Obstaculos = {
          'Mapa1': objeto,

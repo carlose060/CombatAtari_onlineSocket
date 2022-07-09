@@ -1,6 +1,6 @@
 import pygame
 from configs.config import ConfigGerais, ConfigAmbiente
-from colisoes.colisao_tanque import Colisao
+from colisoes.colisao_tanque import Colisao, ColisaoMapa
 from tiro import Tiro
 import time
 
@@ -34,25 +34,28 @@ class Tank(pygame.sprite.Sprite):
     def draw(self,screen):    
         screen.blit(pygame.transform.rotate(self.image,self.angulo_atual),(self.x, self.y))
     
-    def comando1(self):
-        colisao = Colisao.iscoliding[self.angulo_atual]
-        colisao(self)
+    def comando1(self, mapa):
+        colisao = ColisaoMapa.iscoliding[self.angulo_atual]
+        if not colisao(self, mapa): 
+            colisao = Colisao.iscoliding[self.angulo_atual]
+            colisao(self)
+        
     
-    def comando2(self):
+    def comando2(self, mapa):
         if time.time() - self.tempo > 0.2:
             self.angulo_atual += 45
             self.tempo = time.time()
             if self.angulo_atual == 360:
                 self.angulo_atual = 0
     
-    def comando3(self):
+    def comando3(self, mapa):
         if time.time() - self.tempo > 0.2:
             self.angulo_atual -= 45
             self.tempo = time.time()
             if self.angulo_atual < 0:
                 self.angulo_atual = 360 + self.angulo_atual
 
-    def comando4(self):
+    def comando4(self, mapa):
         possui_tiro = 0
         for tiro in self.tiros:
             if tiro.player == self.player:

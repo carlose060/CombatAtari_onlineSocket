@@ -1,7 +1,7 @@
 import pygame
 from tanque import Tank
 from configs.config import ConfigGerais
-from colisoes.colisao_tiro import ColisaoTiro
+from colisoes.colisao_tiro import ColisaoTiro, ColisaoTiroMapa
 from random import randint
 from time import time
 from mapa import Mapa
@@ -18,15 +18,15 @@ class Jogo():
         }
            
     def loop_cliente(self):
-        font = pygame.font.SysFont(None, 50)
-        vidas_players = []
+        font = pygame.font.SysFont(None, 30)
+        
+        #pygame.mixer.Sound('sounds/theme.wav').play()
         while True:
             self.mapa.clock.tick(ConfigGerais.FPS)
             
-            # text = font.render(f"Vidas: {str(self.tanques['1'].vida)}", True, ConfigGerais.WHITE)
-            # text2 = font.render(f"Vidas: {str(self.tanques['2'].vida)}", True, ConfigGerais.WHITE)
+            vidas_players = []
             for i in range(1,len(self.tanques)+1):
-                vida = font.render(f"Vida(s) P{i}: {str(self.tanques[str(i)].vida)}", True, ConfigGerais.WHITE)
+                vida = font.render(f"Vida P{i}: {str(self.tanques[str(i)].vida)}", True, ConfigGerais.BLACK)
                 vidas_players.append(vida)
                 
             event = pygame.event.poll()
@@ -38,14 +38,12 @@ class Jogo():
             x, y= 40, 0 
             for vida in vidas_players:
                 self.mapa.screen.blit(vida, [x, y])
-                if x == 640: x == 40
-                else: x += 600
+                if x == 640: x = 40
+                else: x += 600;continue   
 
                 if y == 580: y = 0
                 else: y += 580
 
-            # self.mapa.screen.blit(text, [40, 0])
-            # self.mapa.screen.blit(text2, [640, 0])
             try:
                 for ob in self.mapa.obst:
                     pygame.draw.rect(self.mapa.screen, ConfigGerais.WHITE, ob)
@@ -58,19 +56,25 @@ class Jogo():
                 tanque.draw(self.mapa.screen)
 
                 for tiro in tanque.tiros:
-                    colisaoShot = ColisaoTiro.iscoliding[tiro.angulo]
-                    if not colisaoShot(tiro):
-                        for outro_index, outro_tanque in self.tanques.items():
-                            if index == outro_index: continue
+                    colisaoShot = ColisaoTiroMapa.iscoliding[tiro.angulo]
+                    if not colisaoShot(tiro, self.mapa.no_mapa):
+                        ## Ta bugando as vezes sai mais de um tiro quando 
+                        # Colide WTTFFF
+                        colisaoShot = ColisaoTiro.iscoliding[tiro.angulo]
+                        if not colisaoShot(tiro):
+                            for outro_index, outro_tanque in self.tanques.items():
+                                if index == outro_index: continue
 
-                            if ColisaoTiro.colisao_tanque(tiro, outro_tanque):
-                                try:
-                                    tanque.tiros.remove(tiro)
-                                except ValueError:
-                                    pass
+                                if ColisaoTiro.colisao_tanque(tiro, outro_tanque):
+                                    try:
+                                        tanque.tiros.remove(tiro)
+                                    except ValueError:
+                                        pass
 
-                        tiro.draw(self.mapa.screen)
-                        tiro.movimento()
+                            tiro.draw(self.mapa.screen)
+                            tiro.movimento()
+                        else:
+                            tanque.tiros.remove(tiro)
                     else:
                         tanque.tiros.remove(tiro)
         
@@ -121,8 +125,3 @@ class Jogo():
     
     
 
-        
-if __name__ == '__main__':
-    mapa = Mapa()
-    jogo = Jogo(mapa)
-    jogo.lup()

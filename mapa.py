@@ -8,16 +8,18 @@ class Mapa:
     
     def __init__(self, num=1):
         pygame.init()
+       
         self.screen = pygame.display.set_mode(ConfigGerais.RESOLUCAO)
         pygame.display.set_caption(ConfigGerais.TITULO)
         self.clock = pygame.time.Clock()
         self.cantos = self.paredes()
         if not num in [1,2]:
             num = 1
+        self.no_mapa = num
         self.obst = self.obstaculos(str(num))
        
     def paredes(self):
-        # Tela do jogo x = 30-770 Y = 50-560
+        # Tela do jogo x = 40-760 Y = 50-560
         # 720 x 510 resolução do jogo sem as paredes
         wall_left = pygame.Rect(ConfigAmbiente.parede_esquerda())
         wall_right = pygame.Rect(ConfigAmbiente.parede_direita())

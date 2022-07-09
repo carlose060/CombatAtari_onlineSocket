@@ -132,3 +132,81 @@ class ColisaoTiro:
         315: iscoliding315
 
     }
+class ColisaoTiroMapa:
+
+    def iscoliding0(tiro, mapa):
+        if mapa == 1:
+            pass
+        else:
+            if tiro.x + tiro.velocidade >= 340 and tiro.x + tiro.velocidade <= 450\
+                and tiro.y > 245 and tiro.y < 355:
+                return True
+        return False
+    def iscoliding45(tiro, mapa):
+        if mapa == 1:
+            pass
+        else:
+            if tiro.x + (tiro.velocidade/2) >= 340 and tiro.x + (tiro.velocidade/2) <= 450\
+                and tiro.y - (tiro.velocidade/2) > 245 and tiro.y - (tiro.velocidade/2) < 355:
+                return True
+        return False
+    def iscoliding90(tiro, mapa):
+        if mapa == 1:
+            pass
+        else:
+            if tiro.y - tiro.velocidade >= 245 and tiro.y - tiro.velocidade <= 355\
+                and tiro.x > 340 and tiro.x < 450:
+                return True
+        return False
+    def iscoliding135(tiro, mapa):
+        if mapa == 1:
+            pass
+        else:
+            if tiro.x - (tiro.velocidade/2) <= 340 and tiro.x - (tiro.velocidade/2) >= 450\
+                and tiro.y - (tiro.velocidade/2) > 245 and tiro.y - (tiro.velocidade/2) < 355:
+                return True
+        return False
+    def iscoliding180(tiro, mapa):
+        if mapa == 1:
+            pass
+        else:
+            if tiro.x - tiro.velocidade <= 340 and tiro.x - tiro.velocidade >= 450\
+                and tiro.y > 245 and tiro.y < 355:
+                return True
+        return False
+    def iscoliding225(tiro, mapa):
+        if mapa == 1:
+            pass
+        else:
+            if tiro.x - (tiro.velocidade/2) <= 340 and tiro.x - (tiro.velocidade/2) >= 450\
+                and tiro.y + (tiro.velocidade/2) > 245 and tiro.y + (tiro.velocidade/2) < 355:
+                return True
+        return False
+    def iscoliding270(tiro, mapa):
+        if mapa == 1:
+            pass
+        else:
+            if tiro.y + tiro.velocidade >= 245 and tiro.y + tiro.velocidade <= 355\
+                and tiro.x > 340 and tiro.x < 450:
+                return True
+        return False
+    def iscoliding315(tiro, mapa):
+        if mapa == 1:
+            pass
+        else:
+            if tiro.x + (tiro.velocidade/2) >= 340 and tiro.x + (tiro.velocidade/2) <= 450\
+                and tiro.y + (tiro.velocidade/2) > 245 and tiro.y + (tiro.velocidade/2) < 355:
+                return True
+    
+
+
+    iscoliding = {
+        0: iscoliding0,
+        45: iscoliding45,
+        90: iscoliding90,
+        135: iscoliding135,
+        180: iscoliding180,
+        225: iscoliding225,
+        270: iscoliding270,
+        315: iscoliding315
+    }

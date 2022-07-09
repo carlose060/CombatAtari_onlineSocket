@@ -11,7 +11,7 @@ class Cliente(socket):
     def __init__(self, no_clientes, no_mapa):
         super().__init__(AF_INET,SOCK_STREAM)
         self.jogo = None
-
+        self.meu_idx = 0
         self.conexao('localhost',8888)
         self.send(pack('!2i', no_clientes, no_mapa))
         self.no_clientes, self.no_mapa = unpack('!2i', self.recv(8))
@@ -20,7 +20,10 @@ class Cliente(socket):
         super().connect((ip,int(porta)))
         
     def collect_data(self):
-        print(self.recv(25).decode())
+        aux = self.recv(1).decode()
+        print(aux)
+        self.meu_idx = int(aux)
+        print(f'Você é o Player {self.meu_idx}/{self.no_clientes}')
         print(self.recv(25).decode())
         print(self.recv(1).decode())
         print(self.recv(1).decode())
@@ -41,7 +44,7 @@ class Cliente(socket):
                 tanque.angulo_atual = d
                 tanque.vida = e
                 if f > len(tanque.tiros):
-                    tanque.comando4()
+                    tanque.comando4(self.no_mapa)
                     pygame.mixer.Sound('sounds/shot.wav').play()
             
 
@@ -63,19 +66,20 @@ class Cliente(socket):
             if comandos[pygame.K_SPACE]:
                 mov = f'4'.encode()
                 self.send(mov)
-                pygame.mixer.Sound('sounds/shot.wav').play()
+                #pygame.mixer.Sound('sounds/shot.wav').play()
             mov = ''
             sleep(0.032)
 
 
     def game(self):
-        mapa = Mapa()
+        mapa = Mapa(self.no_mapa)
         self.jogo = Jogo(self.no_clientes, mapa)
         self.collect_data()
         th = Thread(target=self.recv_server, daemon=True)
         th.start()
         tr = Thread(target=self.send_server, daemon=True)
         tr.start()
+        
         self.jogo.loop_cliente()
         
 
@@ -86,7 +90,7 @@ if __name__ == '__main__':
     darg = dict(enumerate(argv[1:]))
 
     no_clientes = int(darg.get(0, 2))
-    nome_mapa = int(darg.get(1, 1))
+    no_mapa = int(darg.get(1, 1))
 
-    cliente = Cliente(no_clientes, nome_mapa)
+    cliente = Cliente(no_clientes, no_mapa)
     cliente.game()
