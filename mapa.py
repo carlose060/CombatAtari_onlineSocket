@@ -16,7 +16,7 @@ class Mapa:
         if not num in [1,2]:
             num = 1
         self.no_mapa = num
-        self.obst = self.obstaculos(str(num))
+        self.obst = self.obstaculos(num)
        
     def paredes(self):
         # Tela do jogo x = 40-760 Y = 50-560
@@ -32,17 +32,19 @@ class Mapa:
         return [wall_left, wall_right, wall_up, wall_down, obj6, obj7]
 
     def obstaculos(self, num):
+        barreira = ConfigObstaculos.Obstaculos[f'Mapa{str(num)}']
         if num == 1:
-            pass
-        barreira = ConfigObstaculos.Obstaculos[f'Mapa{num}']
-        obj1 = pygame.Rect(barreira(1))
-        obj2 = pygame.Rect(barreira(2))
-        obj3 = pygame.Rect(barreira(3))
-        obj4 = pygame.Rect(barreira(4))
-        
-        obj5 = pygame.Rect(barreira(5))
+            obj1 = pygame.Rect(barreira(1))
+            # obj2 = pygame.Rect(barreira(2))
+            # obj3 = pygame.Rect(barreira(3))
+            obj4 = pygame.Rect(barreira(4))
+            
+            obj5 = pygame.Rect(barreira(5))
 
-        return [obj1, obj2, obj3, obj4, obj5]
+            # return [obj1, obj2, obj3, obj4, obj5]
+            return [obj1, obj4, obj5]
+        else:
+            return [pygame.Rect(barreira(1))]
 
     
 

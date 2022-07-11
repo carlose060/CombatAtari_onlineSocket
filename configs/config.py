@@ -44,10 +44,7 @@ class ConfigObstaculos:
     def objeto(num):
         if num == 1:
             return 250,100,30,100
-        if num == 2:
-            return 250,410,30,100
-        if num == 3:
-            return 510, 100, 30, 100
+        
         if num == 4:
             return 510, 410, 30, 100
         if num == 5:

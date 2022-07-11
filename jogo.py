@@ -56,8 +56,8 @@ class Jogo():
                 tanque.draw(self.mapa.screen)
 
                 for tiro in tanque.tiros:
-                    colisaoShot = ColisaoTiroMapa.iscoliding[tiro.angulo]
-                    if not colisaoShot(tiro, self.mapa.no_mapa):
+                    colisao = ColisaoTiroMapa.iscoliding[tiro.angulo]
+                    if not colisao(tiro, self.mapa.no_mapa):
                         ## Ta bugando as vezes sai mais de um tiro quando 
                         # Colide WTTFFF
                         colisaoShot = ColisaoTiro.iscoliding[tiro.angulo]
@@ -70,9 +70,10 @@ class Jogo():
                                         tanque.tiros.remove(tiro)
                                     except ValueError:
                                         pass
-
+                                           
                             tiro.draw(self.mapa.screen)
                             tiro.movimento()
+                             
                         else:
                             tanque.tiros.remove(tiro)
                     else:
@@ -95,29 +96,36 @@ class Jogo():
                 tanque.draw(self.mapa.screen)
 
                 for tiro in tanque.tiros:
-                    colisaoShot = ColisaoTiro.iscoliding[tiro.angulo]
-                    if not colisaoShot(tiro):
-                        for outro_index, outro_tanque in self.tanques.items():
-                            if index == outro_index: continue
+                    colisaoShot = ColisaoTiroMapa.iscoliding[tiro.angulo]
+                    if not colisaoShot(tiro, self.mapa.no_mapa):
+                        ## Ta bugando as vezes sai mais de um tiro quando 
+                        # Colide WTTFFF
+                        colisaoShot = ColisaoTiro.iscoliding[tiro.angulo]
+                        if not colisaoShot(tiro):
+                            for outro_index, outro_tanque in self.tanques.items():
+                                if index == outro_index: continue
 
-                            if ColisaoTiro.colisao_tanque(tiro, outro_tanque):
-                                
-                                outro_tanque.vida -= 1
+                                if ColisaoTiro.colisao_tanque(tiro, outro_tanque):
+                                    
+                                    outro_tanque.vida -= 1
 
-                                if outro_tanque.vida <= 0:
-                                    outro_tanque.x = outro_tanque.y = 1000
+                                    if outro_tanque.vida <= 0:
+                                        outro_tanque.x = outro_tanque.y = 1000
 
-                                else:
-                                    outro_tanque.x = randint(40,730)
-                                    outro_tanque.y = randint(50,530)
-                                
-                                try:
-                                    tanque.tiros.remove(tiro)
-                                except ValueError:
-                                    pass
+                                    else:
+                                        outro_tanque.x = randint(40,730)
+                                        outro_tanque.y = randint(50,530)
+                                    
+                                    try:
+                                        tanque.tiros.remove(tiro)
+                                        break
+                                    except ValueError:
+                                        pass
 
-                        tiro.draw(self.mapa.screen)
-                        tiro.movimento()
+                            tiro.draw(self.mapa.screen)
+                            tiro.movimento()
+                        else:
+                            tanque.tiros.remove(tiro)
                     else:
                         tanque.tiros.remove(tiro)
 

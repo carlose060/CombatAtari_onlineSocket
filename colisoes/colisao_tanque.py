@@ -128,7 +128,16 @@ class ColisaoMapa:
 
     def iscoliding0(tanque, mapa):
         if mapa == 1:
-            pass
+            if tanque.x + tanque.velocidade >= 220 and tanque.x + tanque.velocidade <= 280\
+                and tanque.y + tanque.velocidade >= 70 and tanque.y + tanque.velocidade <= 200:
+                return True
+            if tanque.x + tanque.velocidade >= 480 and tanque.x + tanque.velocidade <= 540\
+                and tanque.y + tanque.velocidade >= 380 and tanque.y + tanque.velocidade <= 510:
+                return True
+            if tanque.x + tanque.velocidade >= 345 and tanque.x + tanque.velocidade <= 425\
+                and tanque.y + tanque.velocidade >= 250 and tanque.y + tanque.velocidade <= 330:
+                return True
+        # Mapa 2 
         else:
             if tanque.x + tanque.velocidade >= 320 and tanque.x + tanque.velocidade <= 450\
                 and tanque.y > 225 and tanque.y < 355:
@@ -138,7 +147,16 @@ class ColisaoMapa:
 
     def iscoliding45(tanque, mapa):
         if mapa == 1:
-            pass
+            if tanque.x + (tanque.velocidade/2) >= 250 and tanque.x + (tanque.velocidade/2) <= 280\
+                and tanque.y - (tanque.velocidade/2) > 70 and tanque.y - (tanque.velocidade/2) < 200:
+                return True
+            if tanque.x + (tanque.velocidade/2) >= 480 and tanque.x + (tanque.velocidade/2) <= 540\
+                and tanque.y - (tanque.velocidade/2) >= 380 and tanque.y - (tanque.velocidade/2) <= 510:
+                return True
+            if tanque.x + (tanque.velocidade/2) >= 345 and tanque.x + (tanque.velocidade/2) <= 425\
+                and tanque.y - (tanque.velocidade/2) >= 250 and tanque.y - (tanque.velocidade/2) <= 330:
+                return True
+        # Mapa 2        
         else:
             if tanque.x + (tanque.velocidade/2) >= 320 and tanque.x + (tanque.velocidade/2) <= 450\
                 and tanque.y - (tanque.velocidade/2) > 225 and tanque.y - (tanque.velocidade/2) < 355:
@@ -146,7 +164,16 @@ class ColisaoMapa:
         return False
     def iscoliding90(tanque, mapa):
         if mapa == 1:
-            pass
+            if tanque.x  <= 220 and tanque.x  >= 280\
+                and tanque.y - tanque.velocidade >= 70 and tanque.y - tanque.velocidade <= 200:
+                return True
+            if tanque.x  <= 480 and tanque.x  >= 540\
+                and tanque.y - tanque.velocidade >= 380 and tanque.y - tanque.velocidade <= 510:
+                return True
+            if tanque.x  <= 345 and tanque.x  >= 425\
+                and tanque.y - tanque.velocidade >= 250 and tanque.y - tanque.velocidade <= 330:
+                return True
+        # Mapa 2
         else:
             if tanque.y - tanque.velocidade >= 225 and tanque.y - tanque.velocidade <= 355\
                 and tanque.x > 320 and tanque.x < 450:
@@ -154,7 +181,16 @@ class ColisaoMapa:
         return False
     def iscoliding135(tanque, mapa):
         if mapa == 1:
-            pass
+            if tanque.x - (tanque.velocidade/2) >= 220 and tanque.x - (tanque.velocidade/2) <= 280\
+                and tanque.y - (tanque.velocidade/2) >= 70 and tanque.y - (tanque.velocidade/2) <= 200:
+                return True
+            if tanque.x - (tanque.velocidade/2) >= 480 and tanque.x - (tanque.velocidade/2) <= 540\
+                and tanque.y - (tanque.velocidade/2) >= 380 and tanque.y - (tanque.velocidade/2) <= 510:
+                return True
+            if tanque.x - (tanque.velocidade/2) >= 345 and tanque.x - (tanque.velocidade/2) <= 425\
+                and tanque.y - (tanque.velocidade/2) >= 250 and tanque.y - (tanque.velocidade/2) <= 330:
+                return True
+        # Mapa 2     
         else:
             if tanque.x - (tanque.velocidade/2) >= 320 and tanque.x - (tanque.velocidade/2) <= 450\
                 and tanque.y - (tanque.velocidade/2) > 225 and tanque.y - (tanque.velocidade/2) < 355:
@@ -162,7 +198,16 @@ class ColisaoMapa:
         return False
     def iscoliding180(tanque, mapa):
         if mapa == 1:
-            pass
+            if tanque.x - tanque.velocidade >= 220 and tanque.x - tanque.velocidade <= 280\
+                and tanque.y >= 70 and tanque.y <= 200:
+                return True
+            if tanque.x - tanque.velocidade >= 480 and tanque.x - tanque.velocidade <= 540\
+                and tanque.y >= 380 and tanque.y <= 510:
+                return True
+            if tanque.x - tanque.velocidade >= 345 and tanque.x - tanque.velocidade <= 425\
+                and tanque.y >= 250 and tanque.y <= 330:
+                return True
+        # Mapa 2 
         else:
             if tanque.x - tanque.velocidade >= 320 and tanque.x - tanque.velocidade <= 450\
                 and tanque.y > 225 and tanque.y < 355:
@@ -170,7 +215,16 @@ class ColisaoMapa:
         return False
     def iscoliding225(tanque, mapa):
         if mapa == 1:
-            pass
+            if tanque.x - (tanque.velocidade/2) > 230 and tanque.x - (tanque.velocidade/2) <= 280\
+                and tanque.y + (tanque.velocidade/2) >= 70 and tanque.y + (tanque.velocidade/2) <= 200:
+                return True
+            if tanque.x - (tanque.velocidade/2) > 480 and tanque.x - (tanque.velocidade/2) <= 540\
+                and tanque.y + (tanque.velocidade/2) >= 380 and tanque.y + (tanque.velocidade/2) <= 510:
+                return True
+            if tanque.x - (tanque.velocidade/2) > 345 and tanque.x - (tanque.velocidade/2) <= 425\
+                and tanque.y + (tanque.velocidade/2) >= 250 and tanque.y + (tanque.velocidade/2) <= 330:
+                return True
+        # Mapa 2 
         else:
             if tanque.x - (tanque.velocidade/2) >= 320 and tanque.x - (tanque.velocidade/2) <= 450\
                 and tanque.y + (tanque.velocidade/2) > 225 and tanque.y + (tanque.velocidade/2) < 355:
@@ -178,7 +232,16 @@ class ColisaoMapa:
         return False
     def iscoliding270(tanque, mapa):
         if mapa == 1:
-            pass
+            if tanque.x >= 230 and tanque.x <= 280\
+                and tanque.y + tanque.velocidade >= 70 and tanque.y + tanque.velocidade <= 200:
+                return True
+            if tanque.x >= 480 and tanque.x <= 540\
+                and tanque.y + tanque.velocidade >= 380 and tanque.y + tanque.velocidade <= 510:
+                return True
+            if tanque.x >= 345 and tanque.x <= 425\
+                and tanque.y + tanque.velocidade >= 250 and tanque.y + tanque.velocidade <= 330:
+                return True
+        # Mapa 2 
         else:
             if tanque.y + tanque.velocidade >= 225 and tanque.y + tanque.velocidade <= 355\
                 and tanque.x > 320 and tanque.x < 450:
@@ -186,7 +249,16 @@ class ColisaoMapa:
         return False
     def iscoliding315(tanque, mapa):
         if mapa == 1:
-            pass
+            if tanque.x + (tanque.velocidade/2) >= 220 and tanque.x + (tanque.velocidade/2) <= 280\
+                and tanque.y + (tanque.velocidade/2) >= 70 and tanque.y + (tanque.velocidade/2) <= 200:
+                return True
+            if tanque.x + (tanque.velocidade/2) >= 480 and tanque.x + (tanque.velocidade/2) <= 540\
+                and tanque.y + (tanque.velocidade/2) >= 380 and tanque.y + (tanque.velocidade/2) <= 510:
+                return True
+            if tanque.x + (tanque.velocidade/2) >= 345 and tanque.x + (tanque.velocidade/2) <= 425\
+                and tanque.y + (tanque.velocidade/2) >= 250 and tanque.y + (tanque.velocidade/2) <= 330:
+                return True
+        # Mapa 2 
         else:
             if tanque.x + (tanque.velocidade/2) >= 320 and tanque.x + (tanque.velocidade/2) <= 450\
                 and tanque.y + (tanque.velocidade/2) > 225 and tanque.y + (tanque.velocidade/2) < 355:

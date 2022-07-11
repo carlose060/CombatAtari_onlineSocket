@@ -66,7 +66,6 @@ class Cliente(socket):
             if comandos[pygame.K_SPACE]:
                 mov = f'4'.encode()
                 self.send(mov)
-                #pygame.mixer.Sound('sounds/shot.wav').play()
             mov = ''
             sleep(0.032)
 
@@ -90,6 +89,7 @@ if __name__ == '__main__':
     darg = dict(enumerate(argv[1:]))
 
     no_clientes = int(darg.get(0, 2))
+    if no_clientes == 1: no_clientes=2
     no_mapa = int(darg.get(1, 1))
 
     cliente = Cliente(no_clientes, no_mapa)
