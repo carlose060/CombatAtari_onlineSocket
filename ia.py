@@ -6,6 +6,7 @@ import pygame
 from struct import pack, unpack
 from time import sleep
 from sys import argv
+from random import randint
 
 class Cliente(socket):
     def __init__(self, no_clientes, no_mapa):
@@ -49,26 +50,14 @@ class Cliente(socket):
             
 
     def send_server(self):
+        sleep(5)
         while True:
-            #comandos = self.jogo.get_key()
-            comandos = pygame.key.get_pressed()
-            
-            if comandos[pygame.K_UP]:
-                mov = f'1'.encode()
-                self.send(mov)
-            if comandos[pygame.K_LEFT]:
-                mov = f'2'.encode()
-                
-                self.send(mov)
-            if comandos[pygame.K_RIGHT]:
-                mov = f'3'.encode()
-                self.send(mov)
-            if comandos[pygame.K_SPACE]:
-                mov = f'4'.encode()
-                self.send(mov)
+            x = randint(1,4)
+            m = str(x)
+            mov = f'{m}'.encode()
+            self.send(mov)
             mov = ''
-            sleep(0.032)
-
+            sleep(0.1)
 
     def game(self):
         mapa = Mapa(self.no_mapa)
@@ -83,16 +72,7 @@ class Cliente(socket):
         
 
 
-
 if __name__ == '__main__':
-
-    darg = dict(enumerate(argv[1:]))
-
-    no_clientes = int(darg.get(0, 3))
-    if no_clientes == 1: no_clientes=3
-    elif no_clientes == 2: no_clientes=3
-    elif no_clientes == 3: no_clientes=4
-    no_mapa = int(darg.get(1, 1))
-
-    cliente = Cliente(no_clientes, no_mapa)
+    
+    cliente = Cliente(1, 1)
     cliente.game()

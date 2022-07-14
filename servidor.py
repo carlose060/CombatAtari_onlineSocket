@@ -4,6 +4,7 @@ from time import sleep
 from mapa import Mapa
 from jogo import Jogo
 from struct import pack, unpack
+import os
 
 
 class Servidor(socket):
@@ -52,6 +53,14 @@ class Servidor(socket):
             for client_ in self.clients:
                 try: client_.send(tk)
                 except: pass
+    def aceitar_conexao(self):
+
+        client, addr = self.accept()
+        self.clients.append(client)
+        client.recv(8)
+        client.send(pack('!2i', self.no_clientes, self.no_mapa))
+        th = Thread(target=self.cliente, args=(client, str(len(self.clients))), daemon=True)
+        th.start()
 
     def conexao(self):
         client, addr = self.accept()
@@ -63,7 +72,7 @@ class Servidor(socket):
         th = Thread(target=self.cliente, args=(client, str(len(self.clients))), daemon=True)
         th.start()
 
-        for i in range(1, self.no_clientes):
+        for i in range(1, self.no_clientes-1):
             client, addr = self.accept()
             self.clients.append(client)
 
@@ -73,6 +82,11 @@ class Servidor(socket):
 
             th = Thread(target=self.cliente, args=(client, str(len(self.clients))), daemon=True)
             th.start()
+
+        tr = Thread(target=self.aceitar_conexao, daemon=True)
+        tr.start()
+        sleep(1)
+        os.system("gnome-terminal -- python3 ia.py")
 
         mapa = Mapa(self.no_mapa)
         self.jogo = Jogo(self.no_clientes, mapa)

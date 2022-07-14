@@ -15,7 +15,6 @@ class Tank(pygame.sprite.Sprite):
         self.velocidade = 4
         # PNG tamanho 30x30
         self.image = pygame.image.load(f'{ConfigGerais.DIR_PATH}{str(player)}.png')
-        #self.image = pygame.transform.rotate(self.image,local['angulo'])
         self.image = pygame.transform.rotate(self.image,270)
         self.angulo_atual = 0
         self.tempo = time.time()
@@ -26,8 +25,8 @@ class Tank(pygame.sprite.Sprite):
         self.score = 0
         self.comandos = {
             '1': self.comando1,  # UP -- ANDAR
-            '2': self.comando2,  # ESQUERDA
-            '3': self.comando3,  # DIREITA
+            '2': self.comando2,  # ESQUERDA -- +45 angulo
+            '3': self.comando3,  # DIREITA -- -45 angulo
             '4': self.comando4   # ESPAÇO -- TIRO
         } 
      
@@ -40,7 +39,6 @@ class Tank(pygame.sprite.Sprite):
             colisao = Colisao.iscoliding[self.angulo_atual]
             colisao(self)
         
-    
     def comando2(self, mapa):
         if time.time() - self.tempo > 0.2:
             self.angulo_atual += 45

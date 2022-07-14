@@ -1,3 +1,4 @@
+from threading import Thread
 import pygame
 from tanque import Tank
 from configs.config import ConfigGerais
@@ -5,6 +6,7 @@ from colisoes.colisao_tiro import ColisaoTiro, ColisaoTiroMapa
 from random import randint
 from time import time
 from mapa import Mapa
+from time import sleep
 
 
 class Jogo():
@@ -16,11 +18,17 @@ class Jogo():
             str(i): Tank(player=i)
             for i in range(1, no_tanques+1)
         }
-           
+    
+    def loop_musica(self):
+        while True:
+            pygame.mixer.Sound('sounds/theme.wav').play()
+            # sleep with 1 minute 43 seconds
+            sleep(103)
+
     def loop_cliente(self):
         font = pygame.font.SysFont(None, 30)
-        
-        #pygame.mixer.Sound('sounds/theme.wav').play()
+        th = Thread(target=self.loop_musica, deamon=True)
+        th.start()
         while True:
             self.mapa.clock.tick(ConfigGerais.FPS)
             
