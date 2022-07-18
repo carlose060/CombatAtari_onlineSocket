@@ -17,6 +17,7 @@ class Mapa:
             num = 1
         self.no_mapa = num
         self.obst = self.obstaculos(num)
+        self.buff = pygame.image.load(f'{ConfigGerais.DIR_PATH_BUFF}')
        
     def paredes(self):
         # Tela do jogo x = 40-760 Y = 50-560
@@ -35,16 +36,19 @@ class Mapa:
         barreira = ConfigObstaculos.Obstaculos[f'Mapa{str(num)}']
         if num == 1:
             obj1 = pygame.Rect(barreira(1))
-            # obj2 = pygame.Rect(barreira(2))
-            # obj3 = pygame.Rect(barreira(3))
             obj4 = pygame.Rect(barreira(4))
-            
             obj5 = pygame.Rect(barreira(5))
 
-            # return [obj1, obj2, obj3, obj4, obj5]
             return [obj1, obj4, obj5]
         else:
             return [pygame.Rect(barreira(1))]
+
+    
+    def draw_buff(self):
+        local = ConfigAmbiente.localizacao['buff']
+        x = local['x']
+        y = local['y']
+        self.screen.blit(self.buff, (x, y))
 
     
 

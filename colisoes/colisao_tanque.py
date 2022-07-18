@@ -164,13 +164,13 @@ class ColisaoMapa:
         return False
     def iscoliding90(tanque, mapa):
         if mapa == 1:
-            if tanque.x  <= 220 and tanque.x  >= 280\
+            if tanque.x  > 220 and tanque.x  < 280\
                 and tanque.y - tanque.velocidade >= 70 and tanque.y - tanque.velocidade <= 200:
                 return True
-            if tanque.x  <= 480 and tanque.x  >= 540\
+            if tanque.x  > 480 and tanque.x  < 540\
                 and tanque.y - tanque.velocidade >= 380 and tanque.y - tanque.velocidade <= 510:
                 return True
-            if tanque.x  <= 345 and tanque.x  >= 425\
+            if tanque.x  > 345 and tanque.x  <= 425\
                 and tanque.y - tanque.velocidade >= 250 and tanque.y - tanque.velocidade <= 330:
                 return True
         # Mapa 2

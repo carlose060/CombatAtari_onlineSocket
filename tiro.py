@@ -13,28 +13,6 @@ class Tiro():
     def draw(self, screen):
         pygame.draw.rect(screen, ConfigGerais.BLACK, (self.x, self.y, 10, 10))
        
-    def movimento(self):
-        if self.angulo == 0:
-            self.x += self.velocidade
-        elif self.angulo == 45:
-            self.x += (self.velocidade/2)
-            self.y -= (self.velocidade/2)
-        elif self.angulo == 90:
-            self.y -= self.velocidade
-        elif self.angulo == 135:
-            self.x -= (self.velocidade/2)
-            self.y -= (self.velocidade/2)
-        elif self.angulo == 180:
-            self.x -= self.velocidade
-        elif self.angulo == 225:
-            self.x -= (self.velocidade/2)
-            self.y += (self.velocidade/2)
-        elif self.angulo == 270:
-            self.y += self.velocidade
-        elif self.angulo == 315:
-            self.x += (self.velocidade/2)
-            self.y += (self.velocidade/2)
-
     def define_localizacao0(self):
         self.x += 30
         self.y += 10
