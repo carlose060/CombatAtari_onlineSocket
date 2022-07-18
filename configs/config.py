@@ -1,5 +1,6 @@
 class ConfigGerais():
     DIR_PATH = f'./sprites/player_'
+    DIR_PATH_BUFF = f'./sprites/buff.png'
     RESOLUCAO = (800,600)
     TITULO = 'Combat War'
     FPS = 30
@@ -37,14 +38,17 @@ class ConfigAmbiente:
         'Player4': {
             'x': 385,
             'y': 500
-        }
+        },
+        'buff': {
+            'x': 150,
+            'y': 300
+        },
     }
 
 class ConfigObstaculos:
     def objeto(num):
         if num == 1:
             return 250,100,30,100
-        
         if num == 4:
             return 510, 410, 30, 100
         if num == 5:

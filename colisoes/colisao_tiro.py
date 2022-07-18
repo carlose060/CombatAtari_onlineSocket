@@ -15,7 +15,8 @@ class ColisaoTiro:
                 return True
             elif tiro.x + tiro.velocidade >= 660\
             and tiro.x + tiro.velocidade < 680:
-                return True  
+                return True
+        tiro.x += tiro.velocidade
         return False
 
     def iscoliding45(tiro):

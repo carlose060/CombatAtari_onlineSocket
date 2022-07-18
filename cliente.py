@@ -7,12 +7,13 @@ from struct import pack, unpack
 from time import sleep
 from sys import argv
 
+
 class Cliente(socket):
-    def __init__(self, no_clientes, no_mapa):
+    def __init__(self, no_clientes, no_mapa, ip):
         super().__init__(AF_INET,SOCK_STREAM)
         self.jogo = None
         self.meu_idx = 0
-        self.conexao('localhost',8888)
+        self.conexao(ip,8888)
         self.send(pack('!2i', no_clientes, no_mapa))
         self.no_clientes, self.no_mapa = unpack('!2i', self.recv(8))
 
@@ -21,7 +22,6 @@ class Cliente(socket):
         
     def collect_data(self):
         aux = self.recv(1).decode()
-        print(aux)
         self.meu_idx = int(aux)
         print(f'Você é o Player {self.meu_idx}/{self.no_clientes}')
         print(self.recv(25).decode())
@@ -31,42 +31,44 @@ class Cliente(socket):
 
     def recv_server(self):
         while True:
-
             for tanque_idx in range(len(self.jogo.tanques)):
                 tanque = self.jogo.tanques[str(tanque_idx + 1)]
-
-                tt = self.recv(24)
-                a,b,c,d,e,f = unpack('!6i',tt)
-                    
-                tanque.x = a
-                tanque.y = b
-                tanque.velocidade = c
-                tanque.angulo_atual = d
-                tanque.vida = e
-                if f > len(tanque.tiros):
-                    tanque.comando4(self.no_mapa)
-                    pygame.mixer.Sound('sounds/shot.wav').play()
+                tt = self.recv(28)
+                try:
+                    a,b,c,d,e,f, g = unpack('!7i',tt)
+                    tanque.x = a
+                    tanque.y = b
+                    tanque.velocidade = c
+                    tanque.angulo_atual = d
+                    tanque.vida = e
+                    if f > len(tanque.tiros):
+                        tanque.comando4(self.no_mapa)
+                        pygame.mixer.Sound('sounds/shot.wav').play()
+                    self.jogo.buff_on = g
+                except:
+                    pass
+               
             
 
     def send_server(self):
         while True:
-            #comandos = self.jogo.get_key()
             comandos = pygame.key.get_pressed()
-            
-            if comandos[pygame.K_UP]:
-                mov = f'1'.encode()
-                self.send(mov)
-            if comandos[pygame.K_LEFT]:
-                mov = f'2'.encode()
-                
-                self.send(mov)
-            if comandos[pygame.K_RIGHT]:
-                mov = f'3'.encode()
-                self.send(mov)
-            if comandos[pygame.K_SPACE]:
-                mov = f'4'.encode()
-                self.send(mov)
-            mov = ''
+            try:
+                if comandos[pygame.K_UP]:
+                    mov = f'1'.encode()
+                    self.send(mov)
+                if comandos[pygame.K_LEFT]:
+                    mov = f'2'.encode()
+                    self.send(mov)
+                if comandos[pygame.K_RIGHT]:
+                    mov = f'3'.encode()
+                    self.send(mov)
+                if comandos[pygame.K_SPACE]:
+                    mov = f'4'.encode()
+                    self.send(mov)
+                mov = ''
+            except BrokenPipeError or ConnectionResetError:
+                pass
             sleep(0.032)
 
 
@@ -88,11 +90,12 @@ if __name__ == '__main__':
 
     darg = dict(enumerate(argv[1:]))
 
-    no_clientes = int(darg.get(0, 3))
+    no_clientes = int(darg.get(0, 2))
     if no_clientes == 1: no_clientes=3
     elif no_clientes == 2: no_clientes=3
     elif no_clientes == 3: no_clientes=4
     no_mapa = int(darg.get(1, 1))
+    ip = darg.get(2, 'localhost')
 
-    cliente = Cliente(no_clientes, no_mapa)
+    cliente = Cliente(no_clientes, no_mapa, ip)
     cliente.game()
